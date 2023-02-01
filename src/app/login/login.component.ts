@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../_models/user';
@@ -10,7 +10,9 @@ import { AccountService, AlertService } from '../_services';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-
+@Injectable({
+  providedIn: 'root'
+})
 export class LoginComponent implements OnInit {
   authForm!: FormGroup;
   isSubmitted = false;
@@ -22,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   }
   ngOnInit() {
-
+    this.steup()
     this.authForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
       password: [
@@ -34,6 +36,11 @@ export class LoginComponent implements OnInit {
         ]
       ]
     });
+    let win = (window as any);
+    if (win.location.reload !== '?loaded') {
+      win.location.reload = '?loaded';
+      win.location.reload();
+    }
   }
   get formControls(): { [key: string]: AbstractControl } {
     return this.authForm.controls;
@@ -47,8 +54,7 @@ export class LoginComponent implements OnInit {
     }
 
 
-    console.log(this.authForm.value["username"]);
-    console.log(this.authForm.value["password"]);
+
     this.accountService.login(this.authForm.value["username"], this.authForm.value["password"]).pipe(first())
       .subscribe({
         next: () => {
@@ -63,6 +69,17 @@ export class LoginComponent implements OnInit {
         }
       });
     this.authService.signIn(this.authForm.value);
+  }
+  steup() {
+    console.log("try first constructor LoginComponent");
+    const jsonData = [{ "firstName": "admin", "lastName": "gmail", "username": "admin@gmail.com", "password": "Admin", "id": 1 }];
+    localStorage.setItem('user', JSON.stringify(jsonData));
+    localStorage.setItem('triosuite_task_abualwafa', JSON.stringify(jsonData));
+    this.accountService.register(jsonData as User);
+    //  console.log(this.accountService.userValue);
+    if (!this.accountService.userValue) {
+      location.reload()
+    }
   }
 
 }

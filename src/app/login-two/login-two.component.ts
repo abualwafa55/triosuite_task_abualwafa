@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { User } from '../_models/user';
 
 import { AuthService } from '../auth.service';
 import { first } from 'rxjs';
@@ -21,6 +22,7 @@ export class LoginTwoComponent {
 
   }
   ngOnInit() {
+    this.steup()
 
     this.authForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
@@ -62,5 +64,16 @@ export class LoginTwoComponent {
         }
       });
     this.authService.signIn(this.authForm.value);
+  }
+  steup() {
+    console.log("try first constructor LoginComponent");
+    const jsonData = [{ "firstName": "admin", "lastName": "gmail", "username": "admin@gmail.com", "password": "Admin", "id": 1 }];
+    localStorage.setItem('user', JSON.stringify(jsonData));
+    localStorage.setItem('triosuite_task_abualwafa', JSON.stringify(jsonData));
+    this.accountService.register(jsonData as User);
+    //  console.log(this.accountService.userValue);
+    if (!this.accountService.userValue) {
+      location.reload()
+    }
   }
 }

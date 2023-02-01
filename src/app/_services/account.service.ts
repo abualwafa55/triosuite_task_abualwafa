@@ -10,6 +10,9 @@ import { User } from '../_models';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
+    static register() {
+        throw new Error('Method not implemented.');
+    }
     private userSubject: BehaviorSubject<User | null>;
     public user: Observable<User | null>;
 
@@ -20,13 +23,15 @@ export class AccountService {
     ) {
 
 
-        const jsonData = [{ "firstName": "admin", "lastName": "gmail", "username": "admin@gmail.com", "password": "Admin", "id": 1 }, { "firstName": "ABC", "lastName": "ABC", "username": "abc@gmail.com", "password": "102030", "id": 2 }];
-        localStorage.setItem('triosuite_task_abualwafa', JSON.stringify(jsonData));
 
+        //  console.log("try first")
+        //  const jsonData = [{ "firstName": "admin", "lastName": "gmail", "username": "admin@gmail.com", "password": "Admin", "id": 1 }, { "firstName": "ABC", "lastName": "ABC", "username": "abc@gmail.com", "password": "102030", "id": 2 }];
+        //  localStorage.setItem('triosuite_task_abualwafa', JSON.stringify(jsonData));
+        // this.register(jsonData as User);
         this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
         this.user = this.userSubject.asObservable();
 
-        this.register(jsonData as User);
+
     }
 
     public get userValue() {
@@ -43,6 +48,7 @@ export class AccountService {
                 this.userSubject.next(user);
                 return user;
             }));
+
     }
 
     logout() {
@@ -53,8 +59,12 @@ export class AccountService {
     }
 
 
+
     register(user: User) {
+        console.log("register" + JSON.stringify(user));
+
         return this.http.post(`${environment.apiUrl}/users/register`, user);
+
     }
 
     getAll() {

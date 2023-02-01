@@ -14,6 +14,7 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AlertComponent } from './_components';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginTwoComponent } from './login-two/login-two.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,7 @@ import { LoginTwoComponent } from './login-two/login-two.component';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -37,4 +39,7 @@ import { LoginTwoComponent } from './login-two/login-two.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+
+}

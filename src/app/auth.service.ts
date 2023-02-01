@@ -7,10 +7,9 @@ import { User } from './_models/user';
 
 
 export class AuthService {
-  constructor() {
 
 
-  }
+
   public signIn(userData: User) {
 
 
